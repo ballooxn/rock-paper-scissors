@@ -2,60 +2,71 @@
 let humanScore = 0;
 let computerScore = 0;
 
-function playGame() {
-    let humanChoice;
-    let computerChoice;
+const buttons = document.querySelector("#buttons-container");
+const results = document.querySelector("#result");
+const score = document.querySelector("#score");
 
-    for (let i = 0; i < 5; i++) {
-        humanChoice = getHumanChoice();
-        computerChoice = getComputerChoice();
-        playRound(humanChoice, computerChoice);
-    }
-}
+buttons.addEventListener("click", (e) => {
+    let humanChoice = getHumanChoice(e.target.textContent);
+    let computerChoice = getComputerChoice();
+    playRound(humanChoice, computerChoice);
+});
 
 
 function playRound(humanChoice, computerChoice) {
     console.log(humanChoice, computerChoice);
-    
+
     switch (humanChoice) {
         // rock vs scissors
         case 0:
             if (computerChoice === 2) {
                 humanScore += 1;
-                console.log("You win! Rock beats scissors.");
+                results.textContent = "You win! Rock beats scissors.";
             } else if (computerChoice === 1) {
                 computerScore += 1;
-                console.log("You lose! Paper beats rock.");
+                results.textContent = "You lose! Paper beats rock.";
             } else {
-                console.log("TIE!");
+                results.textContent = "TIE!";
             }
             break;
         case 1:
             if (computerChoice === 0) {
                 humanScore += 1;
-                console.log("You win! Paper beats rock.");
+                results.textContent = "You win! Paper beats rock.";
             } else if (computerChoice === 2) {
                 computerScore += 1;
-                console.log("You lose! Scissors beats paper.");
+                results.textContent = "You lose! Scissors beats paper.";
             } else {
-                console.log("TIE!");
+                results.textContent = "TIE!";
             }
             break;
         case 2:
             if (computerChoice === 0) {
                 computerScore += 1;
-                console.log("You lose! Rock beats scissors.");
+                results.textContent = "You lose! Rock beats scissors.";
             } else if (computerChoice === 1) {
                 humanScore += 1;
-                console.log("You win! Scissors beats paper.");
+                results.textContent = "You win! Scissors beats paper.";
             } else {
-                console.log("TIE!");
+                results.textContent = "TIE!";
             }
             break;
         default:
-            console.log("Invalid choice. Please choose Rock, 1 Paper, or 2 Scissors.");
+            results.textContent = "Invalid choice. Please choose Rock, 1 Paper, or 2 Scissors.";
     }
-    console.log("Your score: " + humanScore + "    Computer Score: " + computerScore);
+    if (humanScore === 5) {
+        score.textContent = "Human wins!";
+        humanScore = 0;
+        computerScore = 0;
+    }
+    else if (computerScore === 5) {
+        score.textContent = "Computer wins!"
+        humanScore = 0;
+        computerScore = 0;
+    }
+    else {
+        score.textContent = "Your score: " + humanScore + "    Computer Score: " + computerScore;
+    }
     return;
 }
 // 0 is rock, 1 is paper, 2 is scissors
@@ -67,23 +78,18 @@ function getComputerChoice() {
     let number = Math.floor(Math.random() * 3)
     return number;
 }
-function getHumanChoice() {
+function getHumanChoice(input) {
     // Use prompt to get the human's input and store it in a variable
     // Use a switch statement to return the correct value depending on what the user typed.
-
-    let input = prompt("Choice: ");
-    input = input.toLowerCase();
     switch (input) {
-        case 'scissors':
+        case 'Scissors':
             return 2;
-        case 'rock':
+        case 'Rock':
             return 0;
-        case 'paper':
+        case 'Paper':
             return 1;
         default:
             alert("Please type one of the following: Rock, Paper, or Scissors")
             return false;
     }
 }
-
-playGame();
